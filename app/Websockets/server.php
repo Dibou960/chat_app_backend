@@ -1,25 +1,15 @@
 <?php
 
 use Workerman\Worker;
-use Illuminate\Database\Capsule\Manager as Capsule;
 
 # Inclure les dépendances de Composer
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-# Charger le fichier d'application Laravel
-$app = require_once __DIR__ . '/../../bootstrap/app.php';
-# Initialiser Eloquent avec Laravel
-$capsule = new Capsule;
-$capsule->addConnection(config('database.connections.mysql'));
-$capsule->setAsGlobal();
-$capsule->bootEloquent();
-
-# Configurer la longueur des chaînes de caractères pour la base de données
-Capsule::schema()->defaultStringLength(191);
 
 # Créer un serveur WebSocket avec Workerman
-$port = getenv('PORT') ?: 10000;
+$port = getenv('PORT') ?: 8080; 
 $ws_worker = new Worker("websocket://0.0.0.0:$port");
+
 
 # Définir le nombre de processus de travail
 $ws_worker->count = 1;
