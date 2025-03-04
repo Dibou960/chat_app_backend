@@ -1,33 +1,33 @@
-# Use a PHP image with Composer and necessary extensions
+# Utiliser une image PHP contenant Composer et les extensions nécessaires
 FROM php:8.2-cli
 
-# Install dependencies
+# Installer les dépendances (FFmpeg, Git, Unzip, Supervisor)
 RUN apt-get update && apt-get install -y \
     ffmpeg \
     unzip \
     git \
     supervisor
 
-# Install PHP extensions
+# Installer les extensions PHP nécessaires
 RUN docker-php-ext-install pcntl pdo pdo_mysql
 
-# Install Composer
+# Installer Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Set the working directory
+# Définir le répertoire de travail
 WORKDIR /var/www
 
-# Copy project files
+# Copier les fichiers du projet
 COPY . .
 
-# Install Laravel dependencies
+# Installer les dépendances Laravel
 RUN composer install --no-dev --optimize-autoloader
 
-# Expose the port specified by Render
-EXPOSE ${PORT}
+# Exposer le port de Laravel
+EXPOSE 10000
 
-# Add Supervisor configuration
+# Ajouter le fichier de configuration Supervisor
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# Start Supervisor
+# Lancer Supervisor pour exécuter plusieurs commandes
 CMD ["supervisord", "-n"]
