@@ -7,9 +7,7 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 
 
 # Créer un serveur WebSocket avec Workerman
-$port = getenv('PORT') ?: 8080; 
-$ws_worker = new Worker("websocket://0.0.0.0:$port");
-
+$ws_worker = new Worker("websocket://0.0.0.0:8080");
 
 # Définir le nombre de processus de travail
 $ws_worker->count = 1;
