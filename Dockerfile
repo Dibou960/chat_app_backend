@@ -8,6 +8,9 @@ RUN apt-get update && apt-get install -y \
     git \
     supervisor
 
+# Installer les extensions PHP nécessaires
+RUN docker-php-ext-install pcntl pdo pdo_mysql
+
 # Installer Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
