@@ -18,7 +18,8 @@ $capsule->bootEloquent();
 Capsule::schema()->defaultStringLength(191);
 
 # Créer un serveur WebSocket avec Workerman
-$ws_worker = new Worker("websocket://0.0.0.0:8080");
+$port = getenv('PORT') ?: 10000;
+$ws_worker = new Worker("websocket://0.0.0.0:$port");
 
 # Définir le nombre de processus de travail
 $ws_worker->count = 1;
