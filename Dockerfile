@@ -1,33 +1,31 @@
-# Utiliser une image PHP contenant Composer et les extensions nécessaires
-FROM php:8.2-cli
+FROM php:8.1-fpm
 
-# Installer les dépendances (FFmpeg, Git, Unzip, Supervisor)
+# Installez les dépendances système et PHP requises, y compris FFmpeg
 RUN apt-get update && apt-get install -y \
-    ffmpeg \
-    unzip \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    zip \
     git \
-    supervisor
+    libmysqlclient-dev \
+    ffmpeg \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd pdo pdo_mysql
 
-# Installer les extensions PHP nécessaires
-RUN docker-php-ext-install pcntl pdo pdo_mysql
+# Définir le répertoire de travail
+WORKDIR /var/www/html
+
+# Copier les fichiers de l'application
+COPY . .
 
 # Installer Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Définir le répertoire de travail
-WORKDIR /var/www
+# Installer les dépendances PHP
+RUN composer install --no-interaction --prefer-dist
 
-# Copier les fichiers du projet
-COPY . .
+# Exposer le port que votre application utilisera
+EXPOSE 8000
 
-# Installer les dépendances Laravel
-RUN composer install --no-dev --optimize-autoloader
-
-# Exposer le port de Laravel
-EXPOSE 10000
-
-# Ajouter le fichier de configuration Supervisor
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-
-# Lancer Supervisor pour exécuter plusieurs commandes
-CMD ["supervisord", "-n"]
+# Commande pour démarrer l'application
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
