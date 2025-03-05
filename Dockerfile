@@ -1,13 +1,13 @@
 FROM php:8.1-fpm
 
-# Installez les dépendances système et PHP requises, y compris FFmpeg
+# Installer les dépendances système et PHP requises, y compris FFmpeg
 RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
     zip \
     git \
-    libmysqlclient-dev \
+    libmariadb-dev-compat \  # Remplacer libmysqlclient-dev par libmariadb-dev-compat
     ffmpeg \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd pdo pdo_mysql
