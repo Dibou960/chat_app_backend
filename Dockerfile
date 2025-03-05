@@ -6,6 +6,7 @@ RUN apt-get update && apt-get install -y \
     ffmpeg \
     unzip \
     git \
+    supervisor
     
     # Installer les extensions PHP nécessaires
 RUN docker-php-ext-install pcntl pdo pdo_mysql
@@ -22,13 +23,11 @@ COPY . .
 # Installer les dépendances Laravel
 RUN composer install --no-dev --optimize-autoloader
 
+# Exposer le port de Laravel
+EXPOSE 10000
 
 # Ajouter le fichier de configuration Supervisor
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Lancer Supervisor pour exécuter plusieurs commandes
-# Exposer le port que votre application utilisera
-EXPOSE 8000
-
-# Commande pour démarrer l'application
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+CMD ["supervisord", "-n"]
