@@ -1,14 +1,14 @@
-# Utiliser une image PHP contenant Composer et les extensions nécessaires
+# Utiliser une image PHP avec Composer et extensions nécessaires
 FROM php:8.2-cli
 
-# Installer les dépendances (FFmpeg, Git, Unzip, Supervisor)
+# Installer les dépendances
 RUN apt-get update && apt-get install -y \
     ffmpeg \
     unzip \
     git \
     supervisor
 
-# Installer les extensions PHP nécessaires
+# Installer les extensions PHP
 RUN docker-php-ext-install pcntl pdo pdo_mysql
 
 # Installer Composer
@@ -23,11 +23,11 @@ COPY . .
 # Installer les dépendances Laravel
 RUN composer install --no-dev --optimize-autoloader
 
-# Exposer le port (Render définit automatiquement le port à utiliser)
+# Exposer le port Laravel
 EXPOSE 10000
 
-# Ajouter le fichier de configuration Supervisor
+# Copier la config Supervisor
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# Lancer Supervisor pour exécuter plusieurs commandes
-CMD ["supervisord", "-n"]
+# Démarrer Supervisor pour lancer Laravel et la Queue en parallèle
+CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
