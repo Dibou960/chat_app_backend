@@ -7,8 +7,8 @@ RUN apt-get update && apt-get install -y \
     unzip \
     git \
     supervisor
-    
-    # Installer les extensions PHP nécessaires
+
+# Installer les extensions PHP nécessaires
 RUN docker-php-ext-install pcntl pdo pdo_mysql
 
 # Installer Composer
@@ -23,7 +23,7 @@ COPY . .
 # Installer les dépendances Laravel
 RUN composer install --no-dev --optimize-autoloader
 
-# Exposer le port de Laravel
+# Exposer le port (Render définit automatiquement le port à utiliser)
 EXPOSE 10000
 
 # Ajouter le fichier de configuration Supervisor
