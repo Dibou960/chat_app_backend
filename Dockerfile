@@ -1,6 +1,5 @@
-# Utilise l'image officielle PHP avec FPM (choisissez la version souhaitée, ici 8.1)
+# Utilise l'image officielle PHP avec FPM (choisis la version souhaitée, ici 8.2)
 FROM php:8.2-fpm
-
 
 # Installer les dépendances système et extensions PHP requises
 RUN apt-get update && apt-get install -y \
@@ -10,6 +9,7 @@ RUN apt-get update && apt-get install -y \
     libxml2-dev \
     zip \
     unzip \
+    curl \
     supervisor \
     && docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath gd
 
@@ -34,8 +34,11 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 # Donner les permissions nécessaires aux dossiers de Laravel
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
+# Définir les permissions d'exécution
+RUN chmod -R 775 /var/www/storage /var/www/bootstrap/cache
+
 # Exposer le port (Render assignera une variable d'environnement $PORT si besoin)
-EXPOSE 8000
+EXPOSE 8080
 
 # Lancer Supervisor qui va démarrer PHP-FPM et le worker de queue
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
