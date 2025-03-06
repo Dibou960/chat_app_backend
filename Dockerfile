@@ -28,5 +28,5 @@ COPY . /var/www
 # Exposer le port 8080
 EXPOSE 8080
 
-# Lancer PHP-FPM
-CMD ["php-fpm"]
+# Lancer PHP-FPM avec le fichier de configuration spécifique
+CMD ["php-fpm", "-F"]
