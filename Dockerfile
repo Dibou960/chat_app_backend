@@ -25,10 +25,6 @@ COPY . /var/www
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN composer install --no-dev --prefer-dist --no-scripts --no-interaction
 
-# Exécuter des commandes artisan pour générer des caches Laravel (productions)
-RUN php artisan key:generate
-RUN php artisan config:cache
-RUN php artisan route:cache
 
 # Donner les permissions nécessaires
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache /var/www/public
