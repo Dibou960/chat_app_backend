@@ -1,5 +1,6 @@
 # Utilise l'image officielle PHP avec FPM (choisissez la version souhaitée, ici 8.1)
-FROM php:8.1-fpm
+FROM php:8.2-fpm
+
 
 # Installer les dépendances système et extensions PHP requises
 RUN apt-get update && apt-get install -y \
