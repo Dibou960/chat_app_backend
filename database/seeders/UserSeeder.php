@@ -16,30 +16,30 @@ class UserSeeder extends Seeder {
 
     public function run() {
         $users = [
-            // [
-            //     'name' => 'Utilisateur 1',
-            //     'email' => 'user1@example.com',
-            //     'password' => Hash::make( 'password123' ),
-            //     'created_at' => Carbon::now(),
-            //     'updated_at' => Carbon::now(),
-            // 'url_photo'=>'teste.jpg',
-            // ],
-            // [
-            //     'name' => 'Utilisateur 2',
-            //     'email' => 'user2@example.com',
-            //     'password' => Hash::make( 'password123' ),
-            //     'created_at' => Carbon::now(),
-            //     'updated_at' => Carbon::now(),
-            // 'url_photo'=>'teste.jpg',
-            // ],
-            // [
-            //     'name' => 'Utilisateur 3',
-            //     'email' => 'user3@example.com',
-            //     'password' => Hash::make( 'password123' ),
-            //     'created_at' => Carbon::now(),
-            //     'updated_at' => Carbon::now(),
-            // 'url_photo'=>'teste.jpg',
-            // ],
+            [
+                'name' => 'Utilisateur 1',
+                'email' => 'user1@example.com',
+                'password' => Hash::make( 'password123' ),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+                'url_photo'=>'teste.jpg',
+            ],
+            [
+                'name' => 'Utilisateur 2',
+                'email' => 'user2@example.com',
+                'password' => Hash::make( 'password123' ),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+                'url_photo'=>'teste.jpg',
+            ],
+            [
+                'name' => 'Utilisateur 3',
+                'email' => 'user3@example.com',
+                'password' => Hash::make( 'password123' ),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+                'url_photo'=>'teste.jpg',
+            ],
             [
                 'name' => 'Utilisateur 4',
                 'email' => 'user4@example.com',
