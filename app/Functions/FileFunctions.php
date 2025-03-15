@@ -23,7 +23,7 @@ class FileFunctions {
         }
     
         if ($file instanceof UploadedFile) {
-            # 🔥 Reconversion en Illuminate\Http\UploadedFile pour assurer la compatibilité
+            # Reconversion en Illuminate\Http\UploadedFile
             $tempPath = $file->getPathname();
             $file = new UploadedFile(
                 $tempPath,
@@ -33,21 +33,21 @@ class FileFunctions {
                 true
             );
     
-            # Compression si c'est une image
+            # Compression selon le type de fichier
             if (Str::startsWith($file->getMimeType(), 'image')) {
                 $file = self::compressImage($file, $customWidth ?? 1024);
             } else {
                 $file = self::compressVideo($file);
             }
     
-            # 🔥 Laravel UploadedFile → Utilisation de store()
-            $path = $file->store($directory, 'public');
-            return 'storage/' . $path;
+            # Stockage du fichier sur le disque 'uploads'
+            $path = $file->store($directory, 'uploads');
+            return 'assets/uploads/' . $path;
         }
     
         return null;
-    }  
-
+    }
+    
     /**
      * Convertit un fichier Base64 en UploadedFile.
      */
@@ -125,16 +125,17 @@ class FileFunctions {
     
         return new UploadedFile($tempPath, $file->getClientOriginalName(), $file->getMimeType(), null, true);
     }
-    
 
     /**
      * Supprime un fichier.
      */
     public static function deleteFile($filePath) {
         if (!$filePath) return false;
-        $filePath = Str::replaceFirst('storage/', '', $filePath);
-        return Storage::disk('public')->exists($filePath) && Storage::disk('public')->delete($filePath);
-    }
+    
+        $filePath = Str::replaceFirst('assets/uploads/', '', $filePath);
+    
+        return Storage::disk('uploads')->exists($filePath) && Storage::disk('uploads')->delete($filePath);
+    }    
 
     /**
      * Envoie des données au serveur WebSocket.
