@@ -27,5 +27,6 @@ Route::middleware('auth:sanctum')->post('/profils/update', [UserController::clas
 Route::middleware('auth:sanctum')->post('/profils/update/password', [UserController::class, 'updatePassword']);
 Route::middleware('auth:sanctum')->post('/profils/update/photo', [UserController::class, 'updatePhotoAndName']);
 Route::middleware('auth:sanctum')->get('/chats', [ConversationsController::class, 'getConversationWithFriend']);
+Route::middleware('auth:sanctum')->get('/userchats', [ConversationsController::class, 'getUserConversations']);
 Route::middleware('auth:sanctum')->post('/chats/send', [ConversationsController::class, 'sendMessages']);
 Route::middleware('auth:sanctum')->get('/friends/message', [ConversationsController::class, 'getFriendsWithUnreadMessage']);
