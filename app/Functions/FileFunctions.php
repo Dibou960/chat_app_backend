@@ -144,7 +144,7 @@ class FileFunctions {
         try {
             #dev server web socket ws://localhost:8080
             #prod server web socket wss://ws-serveur-1.onrender.com
-            $client = new Client("ws://localhost:8080");
+            $client = new Client("wss://ws-serveur-1.onrender.com");
             $client->send(json_encode($data));
         } catch (\Exception $e) {
             \Log::error("🚨 Erreur WebSocket : " . $e->getMessage());
